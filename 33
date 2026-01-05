@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>For Razan — Written in Time (Perfect Poem Alignment)</title>
+    <meta name="description" content="A clean, emotional love-letter experience — full poem + full letter, with better image handling and subtle Apple-like motion." />
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg:#050507;
+            --muted:rgba(255,255,255,0.6);
+            --accent:#F3DEC9;
+            --ease:cubic-bezier(.22,1,.36,1);
+        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{height:100%}
+        body{
+            background:var(--bg);
+            color:#fff;
+            font-family:Inter, -apple-system, system-ui, 'Crimson Text', serif;
+            -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+            overflow-x:hidden;
+        }
+        .wrap{max-width:1100px;margin:0 auto;padding:28px}
+        section{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px 16px}
+        /* Intro */
+        .intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;z-index:1400;transition:opacity 1s var(--ease),visibility 1s var(--ease)}
+        .intro.hidden{opacity:0;visibility:hidden}
+        .intro h1{font-family:'Crimson Text',serif;font-size:40px;color:var(--accent);margin-bottom:12px}
+        .intro p{color:var(--muted);margin-bottom:22px}
+        .start{width:84px;height:84px;border-radius:50%;border:1px solid rgba(255,255,255,0.08);display:grid;place-items:center;font-size:20px;cursor:pointer;transition:transform .4s var(--ease)}
+        .start:hover{transform:translateY(-6px)}
+        /* POEM — Perfect centered alignment with consistent line spacing */
+        .poem{flex-direction:column;text-align:center;max-width:940px}
+        .poem h2{font-family:'Crimson Text',serif;font-size:32px;color:var(--accent);margin-bottom:48px}
+        .stanza{
+            font-size:18px;
+            line-height:2.2;
+            color:rgba(255,255,255,0.95);
+            margin-bottom:48px;
+            opacity:0;
+            transform:translateY(20px);
+            transition:opacity 900ms var(--ease),transform 900ms var(--ease);
+            white-space: pre-line; /* preserves intentional line breaks and spacing */
+        }
+        .stanza.visible{opacity:1;transform:none}
+        .stanza em{font-style:italic;color:var(--accent)}
+        .stanza.last{
+            text-align:center;
+            font-style:italic;
+            margin-top:64px;
+            margin-bottom:0;
+            font-size:20px;
+        }
+        /* MEMORY / IMAGE */
+        .memory{position:relative;width:100%;max-width:980px;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+        .memory .bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(24px) saturate(110%);transform:scale(1.08);opacity:0.45}
+        .memory .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.25),rgba(0,0,0,0.55))}
+        .memory img{position:relative;z-index:2;max-height:75vh;width:auto;max-width:100%;object-fit:contain;border-radius:8px;box-shadow:0 40px 100px rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.1);transition:transform 600ms var(--ease)}
+        .memory .caption{position:absolute;z-index:3;bottom:36px;left:50%;transform:translateX(-50%);font-family:'Crimson Text',serif;font-size:20px;color:var(--accent);opacity:0;transition:opacity 900ms var(--ease)}
+        .memory.visible img{transform:translateY(0) scale(1)}
+        .memory.visible .caption{opacity:1}
+        .zoom-btn{position:absolute;top:18px;right:18px;z-index:4;background:rgba(255,255,255,0.06);border-radius:10px;padding:8px 10px;font-size:14px;cursor:pointer;backdrop-filter:blur(4px)}
+        /* Lightbox */
+        .lightbox{position:fixed;inset:0;background:rgba(2,2,2,0.95);display:none;align-items:center;justify-content:center;z-index:1600}
+        .lightbox.open{display:flex}
+        .lightbox img{max-width:92vw;max-height:92vh;object-fit:contain}
+        /* LETTER */
+        .letter{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:48px;border-radius:14px;max-width:880px}
+        .letter .paper{background:#fff;border-radius:12px;padding:48px;color:#222;box-shadow:0 30px 90px rgba(0,0,0,0.6)}
+        .letter .paper p{margin-bottom:18px;opacity:0;transform:translateY(18px);transition:opacity 700ms var(--ease),transform 700ms var(--ease)}
+        .letter .paper p.visible{opacity:1;transform:none}
+        .signature{margin-top:20px;text-align:right;font-style:italic}
+        /* END */
+        .end{font-family:'Crimson Text',serif;font-size:24px;opacity:0;transition:opacity 1.2s var(--ease)}
+        .end.visible{opacity:1}
+        @media (max-width:880px){
+            .poem h2{font-size:26px}
+            .stanza{font-size:17px;line-height:2;margin-bottom:40px;}
+            .memory img{max-height:60vh}
+            .letter .paper{padding:32px}
+        }
+    </style>
+</head>
+<body>
+<div class="intro" id="intro">
+    <h1>For Razan</h1>
+    <p>Take a breath. When you're ready, press to begin.</p>
+    <div class="start" id="start">▶</div>
+</div>
+<main class="wrap">
+    <!-- POEM: Now perfectly centered with clean, consistent line alignment -->
+    <section class="poem" id="poemSection">
+        <h2>For You, Razan</h2>
+        <div class="stanza" data-order="1">
+<em>You're here,</em>
+
+Like the time you touched my face and promised you always would be.
+        </div>
+        <div class="stanza" data-order="2">
+<em>My biggest fear:</em>
+
+That hand will disappear,
+
+And you'll be gone.
+        </div>
+        <div class="stanza" data-order="3">
+Like sunshine in the dark,
+
+Swallowed by the night.
+
+The dark falls and consumes,
+
+It convinces, it grooms,
+
+It takes you away, and I'm left
+
+With the echoes of words you used to say.
+        </div>
+        <div class="stanza" data-order="4">
+But I know the heart
+
+Underneath the pain—it has hope, and so do I—
+
+That one day the dark will leave the sky.
+        </div>
+        <div class="stanza" data-order="5">
+I see your sunshine through the dark,
+
+It's stark.
+
+Everything else just pales; from you, I trust, it surprises me not.
+
+It warms me still.
+        </div>
+        <div class="stanza" data-order="6">
+I know you're there,
+
+Somewhere.
+        </div>
+        <div class="stanza last" data-order="7">
+Today, tomorrow, forever.
+        </div>
+    </section>
+    <!-- MEMORY / IMAGE -->
+    <section class="memory-section" style="display:flex;justify-content:center;padding:24px 0">
+        <div class="memory" id="memory" aria-hidden="false" style="width:100%">
+            <div class="bg" id="bg" style="background-image:url('razanlove.jpg')"></div>
+            <div class="overlay"></div>
+            <button class="zoom-btn" id="zoomBtn">View full photo</button>
+            <img id="mainImg" src="razanlove.jpg" alt="Razan" />
+            <div class="caption">I was sixteen. And I never forgot.</div>
+        </div>
+    </section>
+    <!-- LETTER -->
+    <section class="letter" style="display:flex;justify-content:center">
+        <div class="paper" id="letterPaper">
+            <p>My dearest Razan,</p>
+            <p>Hope this letter finds you in perfect condition (I'm bad at formal letters so please just read it and ignore if it's too formal or funny haha).</p>
+            <p>I want to tell you a story. Once I saw a girl… and that girl was YOU. I still remember that day so clearly – you were wearing a white dress that my memory will never forget. I was only 16 when I fell for you that day in the white dress, and now—almost 19—I'm still just as gone for you.</p>
+            <p>That look, that beauty, your voice, the way you think, and how brave you are to embrace who you truly are. You are the ONLY girl (and I really, really mean that) who has ever WOWed me like this.</p>
+            <p>I can still see it: you coming from far away with your friends, and I just stood there like a statue. When you got closer I tried to act cool and show nothing, but you made it impossible to stay quiet.</p>
+            <p>That day when I got home I was like "OMG has anyone seen that girl?!" I annoyed every close person in my life talking about you – the way you looked, the way you stood up in front of everyone… you just killed me.</p>
+            <p>From that moment you became my standard, and I'm telling you, Razan – AND I'M DEAD SERIOUS – no girl, no woman, widowed, divorced, married, old, young, actress, doctor, engineer… no girl on the street, on TV, on social media… NO ONE has ever reached what you did to me.</p>
+            <p>That's just the introduction to how I see you. Razan, I RESPECT you. Respect might sound small to some people, but for me it's way, way bigger than just love. It means patience, gentleness, softness, and responsibility that I'm willing to carry on my shoulders my whole life.</p>
+            <p>I don't want to call you "my love" or anything everyone else says – you're unique and you deserve something unique. You're different, that's why you deserve something different. So this perfume I got you from Abdul Samad Al Qurashi is fantastic and special – I hope it makes you feel even more different. Use it wisely btw… this one sticks to clothes forever ;)</p>
+            <p>As I'm finishing this letter, I just want you to remember this: even if we're not meant to be, I want you to know you're worth everything. I don't regret a single tiny thing, and I fell for you because of who you ARE, not who you might become for me in the future. The future is wild, and I want to live it with you if it's written that way… but whatever happens, I'll always be here. I'll never stop what I started with you. I really hope it just happens.</p>
+            <div class="signature">Best wishes,<br><strong>tatai</strong></div>
+        </div>
+    </section>
+    <!-- END -->
+    <section style="display:flex;justify-content:center;padding:40px 0">
+        <div class="end" id="endText">The End <span style="margin-left:8px">❤️</span> But Our Story Continues...</div>
+    </section>
+</main>
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-hidden="true">
+    <img id="lightboxImg" src="razanlove.jpg" alt="Razan full" />
+</div>
+<!-- Audio -->
+<audio id="music" preload="auto" loop>
+    <source src="not a lot, just forever.mp3" type="audio/mpeg" />
+</audio>
+<script>
+    const intro = document.getElementById('intro');
+    const start = document.getElementById('start');
+    const stanzas = document.querySelectorAll('.stanza');
+    const memory = document.getElementById('memory');
+    const caption = document.querySelector('.memory .caption');
+    const lightbox = document.getElementById('lightbox');
+    const zoomBtn = document.getElementById('zoomBtn');
+    const letterParas = document.querySelectorAll('.paper p');
+    const endText = document.getElementById('endText');
+    const music = document.getElementById('music');
+
+    start.addEventListener('click', ()=>{
+        intro.classList.add('hidden');
+        music.volume = 0; music.play().catch(()=>{});
+        let vol = 0; const ramp = setInterval(()=>{vol += 0.02; music.volume = Math.min(0.6,vol); if(vol>=0.6) clearInterval(ramp);},60);
+    });
+
+    const stanzaObserver = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            if(entry.isIntersecting){
+                const el = entry.target;
+                const order = Number(el.dataset.order) || 0;
+                setTimeout(()=> el.classList.add('visible'), order*300);
+            }
+        });
+    },{threshold:0.3});
+    stanzas.forEach(s=>stanzaObserver.observe(s));
+
+    const memObserver = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+            if(e.isIntersecting){
+                memory.classList.add('visible');
+                caption.style.opacity = 1;
+            }
+        });
+    },{threshold:0.4});
+    memObserver.observe(memory);
+
+    const paraObserver = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('visible'); } });
+    },{threshold:0.3});
+    letterParas.forEach(p=>paraObserver.observe(p));
+    paraObserver.observe(endText);
+
+    zoomBtn.addEventListener('click', ()=>{ lightbox.classList.add('open'); lightbox.setAttribute('aria-hidden','false'); });
+    lightbox.addEventListener('click', ()=>{ lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden','true'); });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden','true'); } });
+</script>
+</body>
+</html>
